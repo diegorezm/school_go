@@ -4,8 +4,7 @@
 create the .env file 
 ```bash
 touch .env
-echo "PASSWORD=password" >> .env
-echo "DATABASE_NAME=db_name" >> .env
+echo "PASSWORD=password\nDATABASE_NAME=db_name\nPORT=:3030" >> .env
 ```
 
 ## Setep - 2
