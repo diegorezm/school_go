@@ -35,8 +35,7 @@ func main() {
 
 	password := os.Getenv("PASSWORD")
 	dbname := os.Getenv("DATABASE_NAME")
-  port := os.Getenv("PORT")
-
+	port := os.Getenv("PORT")
 
 	database := db.NewDatabase(password, dbname)
 	connection := database.Connection
@@ -206,23 +205,23 @@ func main() {
 		}
 		var tmpl *template.Template
 		studentID := r.PostFormValue("id")
-    log.Print(studentID)
-    err = sh.DeleteStudent(studentID)
-    if err != nil {
+		log.Print(studentID)
+		err = sh.DeleteStudent(studentID)
+		if err != nil {
 			errorString := "<span class='text-danger'>Not able to delete student!</span>"
 			tmpl, _ = template.New("t").Parse(errorString)
 			tmpl.Execute(w, nil)
 			return
-    }
-			html := `
+		}
+		html := `
       <span class='text-danger'>Student deleted!<span>
       <script>
         window.location.reload()
       </script> 
       `
-			tmpl, _ = template.New("t").Parse(html)
-			context.Students, _ = sh.GetAllStudents()
-			tmpl.Execute(w, nil)
+		tmpl, _ = template.New("t").Parse(html)
+		context.Students, _ = sh.GetAllStudents()
+		tmpl.Execute(w, nil)
 	})
 
 	http.HandleFunc("/students/edit", func(w http.ResponseWriter, r *http.Request) {

@@ -17,13 +17,13 @@ func NewTemplateHandler(templatePath string, baseTemplate string) *TemplateHandl
 func (th *TemplateHandler) Render(w http.ResponseWriter, r *http.Request, data interface{}) {
 	tmpl, err := template.ParseFiles(th.templates...)
 	if err != nil {
-    http.Error(w, "Not able to parse the templates. Erro:" + err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Not able to parse the templates. Erro:"+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-  err = tmpl.ExecuteTemplate(w,"base", data)
+	err = tmpl.ExecuteTemplate(w, "base", data)
 	if err != nil {
-    http.Error(w, "Not able to parse the templates. Erro:" + err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Not able to parse the templates. Erro:"+err.Error(), http.StatusInternalServerError)
 		return
 	}
 

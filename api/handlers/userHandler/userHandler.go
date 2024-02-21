@@ -22,17 +22,18 @@ const (
 // stole everything from https://blog.logrocket.com/learn-golang-encryption-decryption/
 
 var bytes = []byte{35, 46, 57, 24, 85, 35, 24, 74, 87, 35, 88, 98, 66, 32, 14, 05}
+
 func Encode(b []byte) string {
 	return base64.StdEncoding.EncodeToString(b)
 }
 
 func Decode(s string) []byte {
- data, err := base64.StdEncoding.DecodeString(s)
- if err != nil {
-  panic(err)
- }
- return data
-} 
+	data, err := base64.StdEncoding.DecodeString(s)
+	if err != nil {
+		panic(err)
+	}
+	return data
+}
 
 func Encrypt(text, MySecret string) (string, error) {
 	block, err := aes.NewCipher([]byte(MySecret))
@@ -96,11 +97,11 @@ func (uh UserHandler) Login(email, password string) (userModel.UserModel, error)
 			return userModel.UserModel{}, fmt.Errorf("Error while trying to fetch user!")
 		}
 	}
-	password_hash , err:= Decrypt(user.Password, SECRET_KEY)
-  if err != nil {
+	password_hash, err := Decrypt(user.Password, SECRET_KEY)
+	if err != nil {
 		log.Print(err.Error())
 		return userModel.UserModel{}, fmt.Errorf("Error while decoding the password!")
-  }
+	}
 	if password != password_hash {
 		return userModel.UserModel{}, fmt.Errorf("Wrong password!")
 	}
@@ -108,11 +109,11 @@ func (uh UserHandler) Login(email, password string) (userModel.UserModel, error)
 }
 
 func (uh UserHandler) Register(newUser userModel.UserModel) (userModel.UserModel, error) {
-	password_hash , err:= Encrypt(newUser.Password, SECRET_KEY)
-  if err != nil {
+	password_hash, err := Encrypt(newUser.Password, SECRET_KEY)
+	if err != nil {
 		log.Print(err.Error())
 		return userModel.UserModel{}, fmt.Errorf("Error while encoding the password!")
-  }
+	}
 	result, err := uh.connection.Exec(INSERT_QUERY, newUser.Name, newUser.Email, &password_hash)
 	if err != nil {
 		log.Print(err.Error())

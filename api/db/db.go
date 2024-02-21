@@ -10,15 +10,15 @@ import (
 )
 
 type DBInfo struct {
-	Host     string
-	Port     int
-	User     string
+	Host string
+	Port int
+	User string
 }
 
 var Info = DBInfo{
-	Host:     "localhost",
-	Port:     3306,
-	User:     "usuario",
+	Host: "localhost",
+	Port: 3306,
+	User: "usuario",
 }
 
 type Databse struct {
