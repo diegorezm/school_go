@@ -1,0 +1,107 @@
+{{ define "content"}}
+<h2 class="text-center mt-2">Students</h2>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Course</th>
+      <th scope="col">Age</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{ range $index, $student := .Students}}
+    <tr>
+      <th scope="row">{{ $index }}</th>
+      <td>{{ $student.Name }}</td>
+      <td>{{ $student.Email }}</td>
+      <td>{{ $student.Course }}</td>
+      <td>{{ $student.Age }}</td>
+      <td colspan="2" class="d-flex flex flex-row">
+        <form hx-post="/students/edit" hx-target="#editStudentForm" hx-swap="innerHTML" hx-trigger="submit"
+          data-bs-toggle="modal" data-bs-target="#edit__student__modal">
+          <input type="hidden" name="student__id" value="{{ $student.Id }}">
+          <button type="submit" class="btn">
+            Edit
+          </button>
+        </form>
+        <form hx-post="/students/delete" hx-target="#toastBody" hx-swap="beforeend" hx-trigger="submit">
+          <input type="hidden" name="id" value="{{ $student.Id }}">
+          <button type="submit" class="btn">
+            Delete
+          </button>
+        </form>
+      </td>
+    </tr>
+    {{ end }}
+  </tbody>
+</table>
+
+<button type="button" class="btn btn-primary position-fixed bottom-0 end-0 m-2" data-bs-toggle="modal"
+  data-bs-target="#add__student__modal">
+  New student
+</button>
+
+<!-- NEW STUDENT MODAL -->
+<div class="modal fade" id="add__student__modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">New student</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="mt-2" hx-post="/students/create" id="createStudentForm" hx-target="#toastBody" hx-swap="beforeend"
+          hx-on::after-request="this.reset();handleToast()">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" aria-describedby="name" name="name">
+          </div>
+
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+          </div>
+
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Course</label>
+            <input type="text" class="form-control" id="course" aria-describedby="course" name="course">
+          </div>
+
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Age</label>
+            <input type="number" class="form-control" id="age" aria-describedby="age" name="age">
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- EDIT STUDENT MODAL -->
+<div class="modal fade" id="edit__student__modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Editing {{.EditStudent.Name}} record...</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="mt-2" hx-put="/students/edit" id="editStudentForm" hx-target="#toastBody" hx-swap="beforeend"
+          hx-on::after-request="this.reset();handleToast()">
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+{{end}}
