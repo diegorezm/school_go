@@ -15,6 +15,7 @@ const (
 	INSERT_QUERY          = "insert into school.students (name, email, age, course) values (?, ?, ?, ?)"
 	UPDATE_QUERY          = "UPDATE school.students SET name= ?, email= ?, course= ?, age= ? WHERE id= ?;"
 	DELETE_QUERY          = "DELETE FROM school.students WHERE id = ?"
+	LAYOUT                = "2006-01-02 15:04:05"
 )
 
 type StudentHandler struct {
@@ -36,13 +37,13 @@ func (sh StudentHandler) scanRow(row *sql.Row) (student.StudentModel, error) {
 		return student.StudentModel{}, fmt.Errorf("Error while trying to scan student.")
 	}
 
-	createAt, err := time.Parse("2006-01-02 15:04:05", createdAtStr)
+	createAt, err := time.Parse(LAYOUT, createdAtStr)
 	if err != nil {
 		return student.StudentModel{}, fmt.Errorf("Error parsing created_at value: %s", err.Error())
 	}
-	updateAt, err := time.Parse("2006-01-02 15:04:05", updatedAtStr)
+	updateAt, err := time.Parse(LAYOUT, updatedAtStr)
 	if err != nil {
-		return student.StudentModel{}, fmt.Errorf("Error parsing created_at value: %s", err.Error())
+		return student.StudentModel{}, fmt.Errorf("Error parsing updatedAt value: %s", err.Error())
 	}
 
 	newStudent.CreatedAt = createAt
@@ -65,11 +66,11 @@ func (sh StudentHandler) GetAllStudents() ([]student.StudentModel, error) {
 			log.Printf(err.Error())
 			return nil, fmt.Errorf("Error while trying to scan student.")
 		}
-		createAt, err := time.Parse("2006-01-02 15:04:05", createdAtStr)
+		createAt, err := time.Parse(LAYOUT, createdAtStr)
 		if err != nil {
 			return nil, fmt.Errorf("Error parsing created_at value: %s", err.Error())
 		}
-		updateAt, err := time.Parse("2006-01-02 15:04:05", updatedAtStr)
+		updateAt, err := time.Parse(LAYOUT, updatedAtStr)
 		if err != nil {
 			return nil, fmt.Errorf("Error parsing created_at value: %s", err.Error())
 		}
