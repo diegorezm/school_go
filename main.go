@@ -25,7 +25,6 @@ type TemplateData struct {
 	EditStudent studentModel.StudentModel
 }
 
-const PORT = ":3030"
 const BASE_TEMPLATE = "./templates/base.html"
 
 func main() {
@@ -36,6 +35,8 @@ func main() {
 
 	password := os.Getenv("PASSWORD")
 	dbname := os.Getenv("DATABASE_NAME")
+  port := os.Getenv("PORT")
+
 
 	database := db.NewDatabase(password, dbname)
 	connection := database.Connection
@@ -341,8 +342,8 @@ func main() {
 
 	// creating a goroutine for the server
 	go func() {
-		fmt.Printf("Server running on port http://localhost%s\n", PORT)
-		log.Fatal(http.ListenAndServe(PORT, nil))
+		fmt.Printf("Server running on port http://localhost%s\n", port)
+		log.Fatal(http.ListenAndServe(port, nil))
 	}()
 	select {}
 }
