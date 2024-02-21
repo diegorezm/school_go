@@ -1,0 +1,18 @@
+version: '3.1'
+services:
+  school:
+    container_name: school
+    hostname: school
+    image: mysql
+    command: 
+    - --default-authentication-plugin=mysql_native_password
+    - --character-set-server=utf8mb4
+    - --collation-server=utf8mb4_unicode_ci
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: ${PASSWORD}
+    ports:
+      - 3306:3306
