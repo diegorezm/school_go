@@ -1,6 +1,6 @@
 # Introduction
 
-This is a rewrite of another one of my projects([this one](https://github.com/diegorezm/school_app)). 
+This is a rewrite of another one of my projects([this one](https://github.com/diegorezm/school_java)). 
 The purpose of this rewrite is to study Go and htmx.
 
 
